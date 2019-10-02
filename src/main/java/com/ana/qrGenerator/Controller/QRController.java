@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-
 import java.util.Optional;
 
 import static com.google.zxing.BarcodeFormat.*;
@@ -41,6 +38,8 @@ public class QRController
         InputStream i = new ByteArrayInputStream(media);
 
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        response.setHeader("x-content-type-options","nosniff");
+        response.setHeader("x-frame-options","ALLOWALL");
         response.setStatus(200);
 
         IOUtils.copy(i, response.getOutputStream());
