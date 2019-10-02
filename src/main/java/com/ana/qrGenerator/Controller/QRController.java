@@ -11,9 +11,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -30,7 +28,8 @@ public class QRController
 {
     private static final String QR_CODE_IMAGE_PATH = "./MyQRCode.png";
     private static final Logger logger = LoggerFactory.getLogger(QRController.class);
-    @RequestMapping("/generateQR")
+    @RequestMapping(value = "/generateQR",method = RequestMethod.GET)
+    @CrossOrigin(origins = "*",allowedHeaders = "*")
     public void generateQRCode(HttpServletResponse response, @RequestParam(value = "qrSize", required = false) Optional<String> qrSize, @RequestParam("qrData")String qrData) throws IOException, WriterException {
 
         logger.info("qrSize: {}",qrSize.orElse("not present"));
@@ -40,7 +39,6 @@ public class QRController
 
         byte[] media = in.toByteArray();
         InputStream i = new ByteArrayInputStream(media);
-
 
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         IOUtils.copy(i, response.getOutputStream());
@@ -63,9 +61,8 @@ public class QRController
         BitMatrix bitMatrix = qrCodeWriter.encode(text, QR_CODE, width, height);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        MatrixToImageWriter.writeToStream(bitMatrix, "JPEG", stream);
+        MatrixToImageWriter.writeToStream(bitMatrix, "jpeg", stream);
         stream.flush();
-
 
 
 
