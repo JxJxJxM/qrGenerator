@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 import java.nio.file.FileSystems;
-import java.nio.file.Path;
+import java.nio.file.Path;.
 
 import java.util.Optional;
 
@@ -28,7 +28,7 @@ public class QRController
 {
     private static final String QR_CODE_IMAGE_PATH = "./MyQRCode.png";
     private static final Logger logger = LoggerFactory.getLogger(QRController.class);
-    @RequestMapping(value = "/generateQR",method = RequestMethod.GET)
+    @RequestMapping("/generateQR")
     @CrossOrigin(origins = "*",allowedHeaders = "*")
     public void generateQRCode(HttpServletResponse response, @RequestParam(value = "qrSize", required = false) Optional<String> qrSize, @RequestParam("qrData")String qrData) throws IOException, WriterException {
 
@@ -41,6 +41,8 @@ public class QRController
         InputStream i = new ByteArrayInputStream(media);
 
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        response.setStatus(200);
+
         IOUtils.copy(i, response.getOutputStream());
     }
 
