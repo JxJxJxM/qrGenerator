@@ -63,7 +63,7 @@ public class QRController
         BitMatrix bitMatrix = qrCodeWriter.encode(text, QR_CODE, width, height);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        MatrixToImageWriter.writeToStream(bitMatrix, "JPG", stream);
+        MatrixToImageWriter.writeToStream(bitMatrix, "JPEG", stream);
         stream.flush();
 
 
